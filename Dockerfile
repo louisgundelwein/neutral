@@ -1,11 +1,24 @@
 FROM node:22-slim AS builder
 WORKDIR /usr/src/app
-COPY package.json .
-COPY package-lock.json* .
+
+# Copy package files
+COPY package.json package-lock.json* ./
 RUN npm ci
 
-FROM node:22-slim
-WORKDIR /usr/src/app
-COPY --from=builder /usr/src/app/ /usr/src/app/
+# Copy source code
 COPY . .
-CMD ["npx", "quartz", "build", "--serve"]
+
+# Build Quartz4 (creates public/ directory)
+RUN npx quartz build
+
+# Production stage with nginx
+FROM nginx:alpine
+
+# Copy built files to nginx
+COPY --from=builder /usr/src/app/public /usr/share/nginx/html/
+
+# Expose port 80
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]
