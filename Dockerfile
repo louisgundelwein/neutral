@@ -1,27 +1,22 @@
-FROM node:22-slim AS builder
-WORKDIR /usr/src/app
+FROM node:22-alpine AS builder
+WORKDIR /app
 
-# Copy package files
-COPY package.json package-lock.json* ./
-RUN npm ci
+COPY package*.json ./
+RUN npm install
 
-# Copy source code
 COPY . .
 
-# Build Quartz4 (creates public/ directory)
-RUN npx quartz build
+# Debug: Zeige was vorhanden ist
+RUN ls -la
+RUN ls -la quartz/
 
-# Production stage with nginx
+# Build mit mehr Output
+RUN npm run build 2>&1 | tee build.log || (cat build.log && exit 1)
+
+# Debug: Zeige was gebaut wurde
+RUN ls -la public/ || echo "public/ existiert nicht!"
+
 FROM nginx:alpine
-
-# Copy built files to nginx
-COPY --from=builder /usr/src/app/public /usr/share/nginx/html/
-
-# Copy custom nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expose port 80
+COPY --from=builder /app/public /usr/share/nginx/html
 EXPOSE 80
-
-# Start nginx
 CMD ["nginx", "-g", "daemon off;"]
