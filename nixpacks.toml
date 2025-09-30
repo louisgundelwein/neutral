@@ -1,17 +1,10 @@
-[providers]
 providers = ["node"]
 
 [variables]
-NODE_VERSION = "22"
-
-[phases.setup]
-nixPkgs = ["nodejs_22", "npm"]
+NODE_VERSION = "18"
 
 [phases.install]
-cmds = ["npm ci"]
+cmds = ["npm install"]
 
 [phases.build]
 cmds = ["npm run build"]
-
-[start]
-cmd = "echo 'Static build complete'"
