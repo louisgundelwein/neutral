@@ -3,11 +3,11 @@ providers = ["node"]
 [variables]
 NODE_VERSION = "22"
 
+[phases.setup]
+nixPkgs = ["nodejs_22", "pnpm"]
+
 [phases.install]
-cmds = [
-  "npm install -g npm@latest",
-  "npm install"
-]
+cmds = ["pnpm install"]
 
 [phases.build]
-cmds = ["npm run build"]
+cmds = ["pnpm run build"]
