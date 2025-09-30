@@ -1,5 +1,8 @@
 [providers]
-node = "22"
+providers = ["node"]
+
+[variables]
+NODE_VERSION = "22"
 
 [phases.setup]
 nixPkgs = ["nodejs_22", "npm"]
@@ -7,7 +10,7 @@ nixPkgs = ["nodejs_22", "npm"]
 [phases.install]
 cmds = ["npm ci"]
 
-[phases.build] 
+[phases.build]
 cmds = ["npm run build"]
 
 [start]
