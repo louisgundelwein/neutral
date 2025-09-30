@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  neutral-quartz:
+    build: .
+    ports:
+      - "8080:80"  # Externer Port 8080 -> Container Port 80
+    restart: unless-stopped
