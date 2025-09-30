@@ -7,7 +7,7 @@ NODE_VERSION = "22"
 nixPkgs = ["nodejs_22", "pnpm"]
 
 [phases.install]
-cmds = ["pnpm install"]
+cmds = ["pnpm install -f"]
 
 [phases.build]
 cmds = ["pnpm run build"]
