@@ -23,7 +23,7 @@
     "sync": "quartz sync"
   },
   "engines": {
-    "npm": ">=10.9.2",
+    "npm": ">=10.9.0",
     "node": ">=22"
   },
   "keywords": [
